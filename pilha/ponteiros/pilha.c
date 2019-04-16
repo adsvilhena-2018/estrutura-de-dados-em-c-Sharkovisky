@@ -8,39 +8,36 @@ typedef struct Node{
 
 typedef struct Pilha{
     node *comeco;
+    node *fim;
 }pilha;
 
 void criarPilha(pilha *pilha){
     pilha->comeco = NULL;
+    pilha->fim = NULL;
 }
 
 void comecarPilha(pilha *pilha, int valor){
     pilha->comeco = malloc(sizeof(node));
     pilha->comeco->valor = valor;
     pilha->comeco->prox = NULL;
+    pilha->fim = pilha->comeco;
 }
 
-void inserirPilhaComeco(pilha *pilha, int valor){
+void inserirPilha(pilha *pilha, int valor){
     if(pilha->comeco==NULL){
         comecarPilha(pilha, valor);
     }else{
         node *nod = malloc(sizeof(node));
-        nod->prox=NULL;
-        nod->valor=valor;
+        nod->prox = NULL;
+        nod->valor = valor;
         
         node *aux = pilha->comeco;
         while(aux->prox!=NULL){
             aux=aux->prox;
         }
+        pilha->fim=nod;
         aux->prox=nod;
-        nod->prox=NULL;
         
-       // node *aux = pilha->comeco;
-        //while(aux->prox!=NULL){
-        //    aux=aux->prox;
-       // }
-       // aux->prox=nod;
-       // nod->prox=NULL;
     }
 }
 
@@ -50,28 +47,44 @@ void imprimirPilha(pilha pilha){
         printf("%d\n", aux->valor);
         aux=aux->prox;
     }
+    printf("\n");
 }
 
-void removerPrimeiro(pilha *pilha){
+void imprimirPilhaFim(pilha pilha){
+    node *aux = pilha.fim;
+    node *aux2 = pilha.comeco;
+    //while(aux)
+}
+
+void removerPilha(pilha *pilha){
     node *aux = pilha->comeco;
-    for(int i=0;i<1;i++){
-        //aux=aux->prox;
-        
+    while(aux->prox!=pilha->fim){
+        aux=aux->prox;
     }
-    printf("2o: %d\n", aux->valor);
+    pilha->fim=aux;
+    pilha->fim->prox=NULL;
     
 }
 
+void mostrarFim(pilha *pilha){
+    printf("Fim da pilha: %d\n", pilha->fim->valor);
+}
 
 int main()
 {
     pilha pilha;
     criarPilha(&pilha);
     comecarPilha(&pilha, 5);
-    inserirPilhaComeco(&pilha, 15);
-    inserirPilhaComeco(&pilha, 1);
+    inserirPilha(&pilha, 2);
+    inserirPilha(&pilha, 1);
+    inserirPilha(&pilha, 18);
     imprimirPilha(pilha);
-    removerPrimeiro(&pilha);
+    removerPilha(&pilha);
     imprimirPilha(pilha);
+    removerPilha(&pilha);
+    imprimirPilha(pilha);
+    removerPilha(&pilha);
+    imprimirPilha(pilha);
+    mostrarFim(&pilha);
     return 0;
 }
